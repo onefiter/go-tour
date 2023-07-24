@@ -1,10 +1,11 @@
-package v1
+package v2
 
 import "net/http"
 
 type HandleFunc func(ctx *Context)
 
 type Server interface {
+	// Handler 需要实现ServeHTTP
 	http.Handler
 
 	// Start 启动服务器
@@ -15,7 +16,7 @@ type Server interface {
 	// AddRoute 注册一个路由
 	// method 是 HTTP 方法
 	// path 是路径，必须以 / 为开头
-	AddRoute(method string, path string, handler HandleFunc)
+	addRoute(method string, path string, handler HandleFunc)
 
 	// 我们并不采取这种设计方案
 	// addRoute(method string, path string, handlers... HandleFunc)
@@ -25,6 +26,12 @@ type Server interface {
 var _ Server = &HTTPServer{}
 
 type HTTPServer struct {
+	router
+}
+
+// NewHTTPServer 创建一个HTTPServer
+func NewHTTPServer() *HTTPServer {
+	return &HTTPServer{router: newRouter()}
 }
 
 // ServeHTTP实现http.Handler接口interface中的ServeHTTP方法
@@ -43,18 +50,23 @@ func (s *HTTPServer) Start(addr string) error {
 	return http.ListenAndServe(addr, s)
 }
 
-func (s *HTTPServer) AddRoute(method string, path string, handler HandleFunc) {
-	//TODO implement me
-	panic("implement me")
-}
 func (s *HTTPServer) serve(ctx *Context) {
+	n, ok := s.findRoute(ctx.Req.Method, ctx.Req.URL.Path)
+
+	if !ok || n.handler == nil {
+		ctx.Resp.WriteHeader(404)
+		ctx.Resp.Write([]byte("Not Found"))
+		return
+	}
+
+	n.handler(ctx)
 
 }
 
 func (s *HTTPServer) Get(path string, handler HandleFunc) {
-	s.AddRoute(http.MethodGet, path, handler)
+	s.addRoute(http.MethodGet, path, handler)
 }
 
 func (s *HTTPServer) POST(path string, handler HandleFunc) {
-	s.AddRoute(http.MethodPost, path, handler)
+	s.addRoute(http.MethodPost, path, handler)
 }
