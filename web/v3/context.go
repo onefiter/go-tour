@@ -1,5 +1,5 @@
-// go:build v2
-package v2
+// go:build v3
+package v3
 
 import "net/http"
 
