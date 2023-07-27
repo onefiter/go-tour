@@ -1,5 +1,4 @@
-//go:build v9
-package web
+package v9
 
 import (
 	"encoding/json"
@@ -10,7 +9,7 @@ import (
 )
 
 type Context struct {
-	Req  *http.Request
+	Req *http.Request
 	// Resp 原生的 ResponseWriter。当你直接使用 Resp 的时候，
 	// 那么相当于你绕开了 RespStatusCode 和 RespData。
 	// 响应数据直接被发送到前端，其它中间件将无法修改响应
@@ -48,7 +47,7 @@ func (c *Context) BindJSON(val any) error {
 	return decoder.Decode(val)
 }
 
-func (c *Context) FormValue(key string) StringValue{
+func (c *Context) FormValue(key string) StringValue {
 	if err := c.Req.ParseForm(); err != nil {
 		return StringValue{err: err}
 	}

@@ -1,5 +1,3 @@
-//go:build v9
-
 package opentelemetry
 
 import (

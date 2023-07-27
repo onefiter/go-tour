@@ -1,4 +1,3 @@
-//go:build v9
 package session
 
 import (
@@ -28,7 +27,6 @@ type Store interface {
 	Remove(ctx context.Context, id string) error
 	Get(ctx context.Context, id string) (Session, error)
 }
-
 
 type Propagator interface {
 	// Inject 将 session id 注入到里面

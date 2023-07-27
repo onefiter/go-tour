@@ -1,4 +1,3 @@
-//go:build v9
-package web
+package v9
 
 type Middleware func(next HandleFunc) HandleFunc

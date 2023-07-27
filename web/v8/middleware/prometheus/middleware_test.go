@@ -1,7 +1,7 @@
 package prometheus
 
 import (
-	"gitee.com/geektime-geekbang/geektime-go/web"
+	web "github.com/go-tour/web/v8"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
 	"testing"

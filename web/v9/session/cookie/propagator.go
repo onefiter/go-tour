@@ -1,4 +1,3 @@
-//go:build v9
 package cookie
 
 import (
@@ -15,20 +14,20 @@ func WithCookieOption(opt func(c *http.Cookie)) PropagatorOption {
 
 type Propagator struct {
 	cookieName string
-	cookieOpt func(c *http.Cookie)
+	cookieOpt  func(c *http.Cookie)
 }
 
-func NewPropagator(cookieName string, opts...PropagatorOption) *Propagator {
+func NewPropagator(cookieName string, opts ...PropagatorOption) *Propagator {
 	res := &Propagator{
 		cookieName: cookieName,
-		cookieOpt: func(c *http.Cookie) {},
+		cookieOpt:  func(c *http.Cookie) {},
 	}
 	return res
 }
 
 func (c *Propagator) Inject(id string, writer http.ResponseWriter) error {
 	cookie := &http.Cookie{
-		Name: c.cookieName,
+		Name:  c.cookieName,
 		Value: id,
 	}
 	c.cookieOpt(cookie)
@@ -46,11 +45,10 @@ func (c *Propagator) Extract(req *http.Request) (string, error) {
 
 func (c *Propagator) Remove(writer http.ResponseWriter) error {
 	cookie := &http.Cookie{
-		Name: c.cookieName,
+		Name:   c.cookieName,
 		MaxAge: -1,
 	}
 	c.cookieOpt(cookie)
 	http.SetCookie(writer, cookie)
 	return nil
 }
-

@@ -1,9 +1,7 @@
-//go:build v9
-
 package opentelemetry
 
 import (
-	web "gitee.com/geektime-geekbang/geektime-go/web/v9"
+	web "github.com/go-tour/web/v9"
 	"go.opentelemetry.io/otel"
 	"testing"
 	"time"

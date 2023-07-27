@@ -1,4 +1,3 @@
-//go:build v8
-package web
+package v8
 
 type Middleware func(next HandleFunc) HandleFunc

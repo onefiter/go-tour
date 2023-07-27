@@ -1,11 +1,9 @@
-//go:build v9
-
 package memory
 
 import (
 	"context"
 	"errors"
-	"gitee.com/geektime-geekbang/geektime-go/web/session"
+	"github.com/go-tour/web/v9/session"
 	cache "github.com/patrickmn/go-cache"
 	"time"
 )

@@ -1,9 +1,7 @@
-//go:build v9
-
 package session
 
 import (
-	"gitee.com/geektime-geekbang/geektime-go/web"
+	web "github.com/go-tour/web/v9"
 )
 
 type Manager struct {

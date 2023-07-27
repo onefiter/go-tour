@@ -1,8 +1,6 @@
-//go:build v8
-
 package errhdl
 
-import web "gitee.com/geektime-geekbang/geektime-go/web/v8"
+import web "github.com/go-tour/web/v8"
 
 type MiddlewareBuilder struct {
 	resp map[int][]byte

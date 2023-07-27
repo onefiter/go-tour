@@ -1,9 +1,7 @@
-//go:build v8
-
 package opentelemetry
 
 import (
-	web "gitee.com/geektime-geekbang/geektime-go/web/v8"
+	web "github.com/go-tour/web/v8"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/propagation"

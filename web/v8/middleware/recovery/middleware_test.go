@@ -1,9 +1,7 @@
-//go:build v8
-
 package recovery
 
 import (
-	web "gitee.com/geektime-geekbang/geektime-go/web/v8"
+	web "github.com/go-tour/web/v8"
 	"log"
 	"testing"
 )

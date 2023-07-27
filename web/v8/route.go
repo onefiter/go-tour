@@ -1,5 +1,4 @@
-//go:build v8
-package web
+package v8
 
 import (
 	"fmt"
@@ -33,7 +32,7 @@ func (r *router) addRoute(method string, path string, handler HandleFunc) {
 		panic("web: 路由必须以 / 开头")
 	}
 
-	if path != "/" && path[len(path) - 1] == '/' {
+	if path != "/" && path[len(path)-1] == '/' {
 		panic("web: 路由不能以 / 结尾")
 	}
 
@@ -181,14 +180,14 @@ func (n *node) childOrCreate(path string) *node {
 }
 
 type matchInfo struct {
-	n *node
+	n          *node
 	pathParams map[string]string
 }
 
 func (m *matchInfo) addValue(key string, value string) {
 	if m.pathParams == nil {
 		// 大多数情况，参数路径只会有一段
-		m.pathParams = map[string]string{key:value}
+		m.pathParams = map[string]string{key: value}
 	}
 	m.pathParams[key] = value
 }

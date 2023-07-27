@@ -1,10 +1,8 @@
-//go:build v9
-
 package accesslog
 
 import (
 	"encoding/json"
-	web "gitee.com/geektime-geekbang/geektime-go/web/v9"
+	web "github.com/go-tour/web/v9"
 	"log"
 )
 

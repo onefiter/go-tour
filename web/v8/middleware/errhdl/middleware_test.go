@@ -1,10 +1,8 @@
-//go:build v8
-
 package errhdl
 
 import (
 	"bytes"
-	web "gitee.com/geektime-geekbang/geektime-go/web/v8"
+	web "github.com/go-tour/web/v8"
 	"html/template"
 	"testing"
 )

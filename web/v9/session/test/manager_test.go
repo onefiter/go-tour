@@ -1,12 +1,10 @@
-//go:build v9
-
 package test
 
 import (
-	"gitee.com/geektime-geekbang/geektime-go/web"
-	"gitee.com/geektime-geekbang/geektime-go/web/session"
-	"gitee.com/geektime-geekbang/geektime-go/web/session/cookie"
-	"gitee.com/geektime-geekbang/geektime-go/web/session/memory"
+	web "github.com/go-tour/web/v9"
+	"github.com/go-tour/web/v9/session"
+	"github.com/go-tour/web/v9/session/cookie"
+	"github.com/go-tour/web/v9/session/memory"
 	"github.com/google/uuid"
 	"net/http"
 	"testing"

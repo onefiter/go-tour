@@ -1,5 +1,4 @@
-//go:build v8
-package web
+package v8
 
 import (
 	"bytes"
@@ -13,7 +12,6 @@ type TemplateEngine interface {
 	// data 是渲染页面所需要的数据
 	Render(ctx context.Context, tplName string, data any) ([]byte, error)
 }
-
 
 type GoTemplateEngine struct {
 	T *template.Template
@@ -36,7 +34,7 @@ func (g *GoTemplateEngine) LoadFromGlob(pattern string) error {
 	return err
 }
 
-func (g *GoTemplateEngine) LoadFromFiles(filenames...string) error {
+func (g *GoTemplateEngine) LoadFromFiles(filenames ...string) error {
 	var err error
 	g.T, err = template.ParseFiles(filenames...)
 	return err
