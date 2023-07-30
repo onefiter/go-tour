@@ -1,4 +1,3 @@
-// go:build v3
 package v3
 
 import "net/http"
