@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//go:build v16
-package orm
+package v16
 
 import (
 	"context"
@@ -27,8 +26,8 @@ var _ session = &DB{}
 // 暂时做成私有的，后面考虑重构，因为这个东西用户可能有点难以理解
 type session interface {
 	getCore() core
-	queryContext(ctx context.Context, query string, args...any) (*sql.Rows, error)
-	execContext(ctx context.Context, query string, args...any) (sql.Result, error)
+	queryContext(ctx context.Context, query string, args ...any) (*sql.Rows, error)
+	execContext(ctx context.Context, query string, args ...any) (sql.Result, error)
 }
 
 type Tx struct {

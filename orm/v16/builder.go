@@ -1,9 +1,8 @@
-//go:build v16
-
-package orm
+package v16
 
 import (
 	"github.com/go-tour/orm/internal/errs"
+	"github.com/go-tour/orm/v16/model"
 	"strings"
 )
 

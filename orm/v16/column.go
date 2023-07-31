@@ -1,5 +1,4 @@
-//go:build v16
-package orm
+package v16
 
 type Column struct {
 	table TableReference
@@ -24,7 +23,7 @@ func (c Column) target() TableReference {
 }
 
 func (c Column) As(alias string) Column {
-	return Column {
+	return Column{
 		name:  c.name,
 		alias: alias,
 	}
@@ -48,16 +47,16 @@ func C(name string) Column {
 
 func (c Column) Add(delta int) MathExpr {
 	return MathExpr{
-		left: c,
-		op: opAdd,
+		left:  c,
+		op:    opAdd,
 		right: value{val: delta},
 	}
 }
 
 func (c Column) Multi(delta int) MathExpr {
 	return MathExpr{
-		left: c,
-		op: opAdd,
+		left:  c,
+		op:    opAdd,
 		right: value{val: delta},
 	}
 }
@@ -91,7 +90,7 @@ func (c Column) GT(arg any) Predicate {
 // 另外一种就是普通的值
 // 这里我们可以定义两个方法，如 In  和 InQuery，也可以定义一个方法
 // 这里我们使用一个方法
-func (c Column) In(vals...any) Predicate {
+func (c Column) In(vals ...any) Predicate {
 	return Predicate{
 		left:  c,
 		op:    opIN,

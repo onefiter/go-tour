@@ -1,5 +1,4 @@
-//go:build v16
-package orm
+package v16
 
 // Assignable 标记接口，
 // 实现该接口意味着可以用于赋值语句，
@@ -10,7 +9,7 @@ type Assignable interface {
 
 type Assignment struct {
 	column string
-	val Expression
+	val    Expression
 }
 
 func Assign(column string, val any) Assignment {
@@ -20,7 +19,7 @@ func Assign(column string, val any) Assignment {
 	}
 	return Assignment{
 		column: column,
-		val: v,
+		val:    v,
 	}
 }
 

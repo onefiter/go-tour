@@ -1,10 +1,9 @@
-//go:build v16
-
-package orm
+package v16
 
 import (
 	"context"
 	"github.com/go-tour/orm/internal/errs"
+	"github.com/go-tour/orm/v16/model"
 )
 
 type UpsertBuilder[T any] struct {

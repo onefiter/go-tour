@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//go:build v16
-
-package orm
+package v16
 
 import (
 	"context"
 	"database/sql"
 	"github.com/go-tour/orm/internal/valuer"
+	"github.com/go-tour/orm/v16/model"
 )
 
 type core struct {

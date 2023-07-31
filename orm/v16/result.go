@@ -1,5 +1,4 @@
-//go:build v16
-package orm
+package v16
 
 import "database/sql"
 

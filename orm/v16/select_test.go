@@ -1,12 +1,11 @@
-//go:build v16
-
-package orm
+package v16
 
 import (
 	"context"
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/go-tour/orm/internal/errs"
 	"github.com/go-tour/orm/internal/valuer"
 	"github.com/stretchr/testify/assert"

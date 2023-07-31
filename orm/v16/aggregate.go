@@ -1,5 +1,4 @@
-//go:build v16
-package orm
+package v16
 
 // Aggregate 代表聚合函数，例如 AVG, MAX, MIN 等
 type Aggregate struct {
@@ -55,7 +54,6 @@ func (a Aggregate) GT(arg any) Predicate {
 		right: exprOf(arg),
 	}
 }
-
 
 func Avg(c string) Aggregate {
 	return Aggregate{

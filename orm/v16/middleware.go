@@ -1,9 +1,8 @@
-//go:build v16
-
-package orm
+package v16
 
 import (
 	"context"
+	"github.com/go-tour/orm/v16/model"
 )
 
 type QueryContext struct {

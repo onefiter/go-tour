@@ -1,10 +1,9 @@
-//go:build v16
-
 package valuer
 
 import (
 	"database/sql"
 	"github.com/go-tour/orm/internal/errs"
+	"github.com/go-tour/orm/v16/model"
 	"reflect"
 )
 

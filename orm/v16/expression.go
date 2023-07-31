@@ -1,5 +1,4 @@
-//go:build v16
-package orm
+package v16
 
 // RawExpr 代表一个原生表达式
 // 意味着 ORM 不会对它进行任何处理
@@ -81,21 +80,21 @@ func (SubqueryExpr) expr() {}
 
 func Any(sub Subquery) SubqueryExpr {
 	return SubqueryExpr{
-		s: sub,
+		s:    sub,
 		pred: "ANY",
 	}
 }
 
 func All(sub Subquery) SubqueryExpr {
 	return SubqueryExpr{
-		s: sub,
+		s:    sub,
 		pred: "ALL",
 	}
 }
 
 func Some(sub Subquery) SubqueryExpr {
 	return SubqueryExpr{
-		s: sub,
+		s:    sub,
 		pred: "SOME",
 	}
 }

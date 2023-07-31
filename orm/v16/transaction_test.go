@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//go:build v16
-package orm
+package v16
 
 import (
 	"context"
@@ -47,7 +46,6 @@ func TestTx_Commit(t *testing.T) {
 	assert.Nil(t, err)
 	err = tx.Commit()
 	assert.Nil(t, err)
-
 
 }
 

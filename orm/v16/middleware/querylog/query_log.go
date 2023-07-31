@@ -1,10 +1,8 @@
-//go:build v16
-
 package querylog
 
 import (
 	"context"
-	"github.com/go-tour/orm"
+	orm "github.com/go-tour/orm/v16"
 	"log"
 )
 
@@ -28,7 +26,7 @@ func NewBuilder() *MiddlewareBuilder {
 func (m *MiddlewareBuilder) Build() orm.Middleware {
 	return func(next orm.HandleFunc) orm.HandleFunc {
 		return func(ctx context.Context, qc *orm.QueryContext) *orm.QueryResult {
-			q, err := qc.builder.Build()
+			q, err := qc.Builder.Build()
 			if err != nil {
 				return &orm.QueryResult{
 					Err: err,

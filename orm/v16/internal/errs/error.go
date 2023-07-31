@@ -1,4 +1,3 @@
-//go:build v16
 package errs
 
 import (
@@ -11,11 +10,11 @@ var (
 	// 看到这个 error 说明你输入了其它的东西
 	// 我们并不希望用户能够直接使用 err == ErrPointerOnly
 	// 所以放在我们的 internal 包里
-	ErrPointerOnly = errors.New("orm: 只支持一级指针作为输入，例如 *User")
+	ErrPointerOnly            = errors.New("orm: 只支持一级指针作为输入，例如 *User")
 	ErrNoRows                 = errors.New("orm: 未找到数据")
 	ErrTooManyReturnedColumns = errors.New("orm: 过多列")
 	// ErrInsertZeroRow 代表插入 0 行
-	ErrInsertZeroRow = errors.New("orm: 插入 0 行")
+	ErrInsertZeroRow    = errors.New("orm: 插入 0 行")
 	ErrNoUpdatedColumns = errors.New("orm: 未指定更新的列")
 )
 

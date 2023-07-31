@@ -1,5 +1,3 @@
-//go:build v16
-
 package prometheus
 
 import (

@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//go:build v16
-package orm
+package v16
 
 import (
 	"context"
@@ -152,7 +151,7 @@ CREATE TABLE IF NOT EXISTS test_model(
 }
 
 // memoryDB 返回一个基于内存的 ORM，它使用的是 sqlite3 内存模式。
-func memoryDB(t *testing.T, opts...DBOption) *DB {
+func memoryDB(t *testing.T, opts ...DBOption) *DB {
 	orm, err := Open("sqlite3", "file:test.db?cache=shared&mode=memory", opts...)
 	if err != nil {
 		t.Fatal(err)

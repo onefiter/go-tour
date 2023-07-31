@@ -1,20 +1,19 @@
-//go:build v16
-package orm
+package v16
 
 // op 代表操作符
 type op string
 
 // 后面可以每次支持新的操作符就加一个
 const (
-	opEQ  = "="
-	opLT  = "<"
-	opGT  = ">"
-	opIN  = "IN"
-	opExist  = "EXIST"
-	opAND = "AND"
-	opOR  = "OR"
-	opNOT = "NOT"
-	opAdd = "+"
+	opEQ    = "="
+	opLT    = "<"
+	opGT    = ">"
+	opIN    = "IN"
+	opExist = "EXIST"
+	opAND   = "AND"
+	opOR    = "OR"
+	opNOT   = "NOT"
+	opAdd   = "+"
 	opMulti = "*"
 )
 
@@ -45,7 +44,7 @@ func (Predicate) expr() {}
 
 func Exist(sub Subquery) Predicate {
 	return Predicate{
-		op: opExist,
+		op:    opExist,
 		right: sub,
 	}
 }

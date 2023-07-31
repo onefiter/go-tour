@@ -1,4 +1,3 @@
-//go:build v16
 package model
 
 import (
@@ -8,7 +7,7 @@ import (
 type Model struct {
 	// TableName 结构体对应的表名
 	TableName string
-	Fields []*Field
+	Fields    []*Field
 	FieldMap  map[string]*Field
 	ColumnMap map[string]*Field
 }
@@ -16,9 +15,9 @@ type Model struct {
 // Field 字段
 type Field struct {
 	ColName string
-	GoName string
-	Type   reflect.Type
-	Index int
+	GoName  string
+	Type    reflect.Type
+	Index   int
 	// Offset 相对于对象起始地址的字段偏移量
 	Offset uintptr
 }

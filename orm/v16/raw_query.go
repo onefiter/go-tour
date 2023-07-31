@@ -1,5 +1,4 @@
-//go:build v16
-package orm
+package v16
 
 import (
 	"context"
@@ -11,21 +10,21 @@ var _ Querier[any] = &RawQuerier[any]{}
 type RawQuerier[T any] struct {
 	core
 	sess session
-	sql string
+	sql  string
 	args []any
 }
 
 func (r *RawQuerier[T]) Exec(ctx context.Context) Result {
 	return exec(ctx, r.sess, r.core, &QueryContext{
 		Builder: r,
-		Type: "RAW",
+		Type:    "RAW",
 	})
 }
 
 func (r *RawQuerier[T]) Get(ctx context.Context) (*T, error) {
 	res := get[T](ctx, r.core, r.sess, &QueryContext{
 		Builder: r,
-		Type: "RAW",
+		Type:    "RAW",
 	})
 	if res.Result != nil {
 		return res.Result.(*T), res.Err
@@ -48,9 +47,9 @@ func (r *RawQuerier[T]) Build() (*Query, error) {
 // RawQuery 创建一个 RawQuerier 实例
 // 泛型参数 T 是目标类型。
 // 例如，如果查询 User 的数据，那么 T 就是 User
-func RawQuery[T any](sess session, sql string, args...any) *RawQuerier[T] {
+func RawQuery[T any](sess session, sql string, args ...any) *RawQuerier[T] {
 	return &RawQuerier[T]{
-		sql: sql,
+		sql:  sql,
 		args: args,
 		core: sess.getCore(),
 		sess: sess,

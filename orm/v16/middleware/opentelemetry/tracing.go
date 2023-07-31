@@ -1,10 +1,8 @@
-//go:build v16
-
 package opentelemetry
 
 import (
 	"context"
-	"github.com/go-tour/orm"
+	orm "github.com/go-tour/orm/v16"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
@@ -26,7 +24,7 @@ func (b *MiddlewareBuilder) Build() orm.Middleware {
 			reqCtx, span := b.Tracer.Start(ctx, qc.Type+"-"+tbl, trace.WithAttributes())
 			defer span.End()
 			span.SetAttributes(attribute.String("component", "orm"))
-			q, err := qc.builder.Build()
+			q, err := qc.Builder.Build()
 			if err != nil {
 				span.RecordError(err)
 			}
