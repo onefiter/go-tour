@@ -5,8 +5,8 @@ import (
 	"database/sql"
 )
 
-// SELECT 语句
-type Queier[T any] interface {
+// Querier SELECT 语句
+type Querier[T any] interface {
 	// user := xxx.Get(ctx)
 
 	// 不再需要写成
@@ -16,11 +16,12 @@ type Queier[T any] interface {
 	GetMulti(ctx context.Context) ([]*T, error)
 }
 
-// UPDATE, DELETE, INSERT
+// Executor UPDATE, DELETE, INSERT
 type Executor interface {
 	Exec(ctx context.Context) (sql.Result, error)
 }
 
+// QueryBuilder 作为构建SQL这一个单独步骤的顶级抽象
 type QueryBuilder interface {
 	Build() (*Query, error)
 }
@@ -29,6 +30,6 @@ type QueryBuilder interface {
 // db.QueryRow
 // db.Query
 type Query struct {
-	SQL string
+	SQL  string
 	Args []any
 }

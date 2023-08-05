@@ -1,5 +1,4 @@
-//go:build v1
-package orm
+package v1
 
 import (
 	"context"
