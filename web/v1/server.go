@@ -27,14 +27,19 @@ var _ Server = &HTTPServer{}
 type HTTPServer struct {
 }
 
+// 组合了http包server.go
 // ServeHTTP实现http.Handler接口interface中的ServeHTTP方法
 func (s *HTTPServer) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 
+	// ServeHTTP方法是作为http包和Web框架的关联点，需要在ServeHTTP内部，执行：
+	// 1.构建起Web框架的上下文
+	// 2.查找路由树，并执行命中的路由代码
 	ctx := &Context{
 		Req:  request,
 		Resp: writer,
 	}
 
+	// 查找路由，并执行代码
 	s.serve(ctx)
 
 }
