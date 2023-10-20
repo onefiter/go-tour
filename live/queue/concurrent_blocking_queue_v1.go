@@ -1,10 +1,10 @@
+//go:build v1
+
 package queue
 
 import (
 	"context"
 	"sync"
-	"sync/atomic"
-	"unsafe"
 )
 
 type ConcurrentBlockingQueue[T any] struct {
@@ -14,8 +14,8 @@ type ConcurrentBlockingQueue[T any] struct {
 	//notEmpty chan struct{}
 	maxSize int
 
-	notEmptyCond *Cond
-	notFullCond  *Cond
+	notEmptyCond *cond
+	notFullCond  *cond
 }
 
 func NewConcurrentBlockingQueue[T any](maxSize int) *ConcurrentBlockingQueue[T] {
@@ -25,9 +25,13 @@ func NewConcurrentBlockingQueue[T any](maxSize int) *ConcurrentBlockingQueue[T] 
 		mutex: m,
 		//notFull:  make(chan struct{}, 1),
 		//notEmpty: make(chan struct{}, 1),
-		maxSize:      maxSize,
-		notFullCond:  NewCond(m),
-		notEmptyCond: NewCond(m),
+		maxSize: maxSize,
+		notFullCond: &cond{
+			sync.NewCond(m),
+		},
+		notEmptyCond: &cond{
+			sync.NewCond(m),
+		},
 	}
 }
 
@@ -39,7 +43,7 @@ func (c *ConcurrentBlockingQueue[T]) Enqueue(ctx context.Context, data T) error 
 	c.mutex.Lock()
 
 	for c.isFull() {
-		err := c.notFullCond.WaitWithTimeout(ctx)
+		err := c.notFullCond.WaitTimeout(ctx)
 		if err != nil {
 			return err
 		}
@@ -47,7 +51,7 @@ func (c *ConcurrentBlockingQueue[T]) Enqueue(ctx context.Context, data T) error 
 	// 1. 缺点append会导致数组不断扩容，出队列没能解决缓存--可以用两个指针进行维护
 	// 2.
 	c.data = append(c.data, data)
-	c.notFullCond.Broadcast()
+	c.notFullCond.Signal()
 	c.mutex.Unlock()
 
 	return nil
@@ -62,7 +66,7 @@ func (c *ConcurrentBlockingQueue[T]) Dequeue(ctx context.Context) (T, error) {
 	c.mutex.Lock()
 
 	for c.isEmpty() {
-		err := c.notEmptyCond.WaitWithTimeout(ctx)
+		err := c.notEmptyCond.WaitTimeout(ctx)
 		if err != nil {
 			var t T
 			return t, err
@@ -72,7 +76,7 @@ func (c *ConcurrentBlockingQueue[T]) Dequeue(ctx context.Context) (T, error) {
 	// [a, b, c, d]
 	t := c.data[0]
 	c.data = c.data[1:]
-	c.notEmptyCond.Broadcast()
+	c.notEmptyCond.Signal()
 	c.mutex.Unlock()
 
 	return t, nil
@@ -104,48 +108,30 @@ func (c *ConcurrentBlockingQueue[T]) Len() uint64 {
 	return uint64(len(c.data))
 }
 
-type Cond struct {
-	L sync.Locker
-	n unsafe.Pointer
+type cond struct {
+	*sync.Cond
 }
 
-func NewCond(l sync.Locker) *Cond {
-	c := &Cond{L: l}
-	n := make(chan struct{})
-	c.n = unsafe.Pointer(&n)
-	return c
-}
+func (c *cond) WaitTimeout(ctx context.Context) error {
+	ch := make(chan struct{})
 
-func (c *Cond) Wait() {
-	n := c.NotifyChan()
-	c.L.Unlock()
-	<-n
-	c.L.Lock()
-}
-
-func (c *Cond) WaitWithTimeout(ctx context.Context) error {
-	n := c.NotifyChan()
-	c.L.Unlock()
+	go func() {
+		c.Cond.Wait()
+		select {
+		case ch <- struct{}{}:
+		default:
+			// 这里已经超时
+			c.Cond.Signal()
+			c.Cond.L.Unlock()
+		}
+	}()
 
 	select {
-	case <-n:
-		c.L.Lock()
-		return nil
 	case <-ctx.Done():
-		c.L.Lock()
 		return ctx.Err()
-
+	case <-ch:
+		// 真的被唤醒
+		return nil
 	}
-}
 
-// Returns a channel that can be used to wait for next Broadcast() call.
-func (c *Cond) NotifyChan() <-chan struct{} {
-	ptr := atomic.LoadPointer(&c.n)
-	return *(*chan struct{})(ptr)
-}
-
-func (c *Cond) Broadcast() {
-	n := make(chan struct{})
-	ptrOld := atomic.SwapPointer(&c.n, unsafe.Pointer(&n))
-	close(*(*chan struct{})(ptrOld))
 }
