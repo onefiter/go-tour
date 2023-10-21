@@ -13,7 +13,7 @@ func TestQueue(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	_, err := q.Dequeue(ctx)
+	_, err := q.DeQueue(ctx)
 
 	assert.Equal(t, context.DeadlineExceeded, err)
 }
