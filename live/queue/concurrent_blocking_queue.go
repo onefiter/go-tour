@@ -45,7 +45,7 @@ func (c *ConcurrentBlockingQueue[T]) Enqueue(ctx context.Context, data T) error 
 		}
 	}
 	// 1. 缺点append会导致数组不断扩容，出队列没能解决缓存--可以用两个指针进行维护
-	// 2.
+	// 2.可能引起扩容
 	c.data = append(c.data, data)
 	c.notFullCond.Broadcast()
 	c.mutex.Unlock()
