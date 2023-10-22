@@ -11,8 +11,9 @@ type Queue[T any] interface {
 	// Enqueue(duration time.Duration,  data any) error
 	// Enqueue Go语言中用context.Context 来设计超时控制
 
-	Enqueue(ctx context.Context, data T) error
-	Dequeue(ctx context.Context) (T, error)
+	EnQueue(ctx context.Context, data T) error
+	DeQueue(ctx context.Context) (T, error)
+
 	IsFull() bool
 	IsEmpty() bool
 	Len() uint64
